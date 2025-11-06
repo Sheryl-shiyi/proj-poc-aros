@@ -8,3 +8,6 @@ __pycache__/
 # Ignore system files
 .DS_Store
 Thumbs.db
+
+# Ignore API keys and sensitive configuration
+assets/API_KEY.yaml
