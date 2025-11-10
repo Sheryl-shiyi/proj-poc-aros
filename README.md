@@ -88,5 +88,6 @@ Both models support internal and external endpoint access. **External URLs are p
 
 1. **Audio Transcription**: Run either whisper notebook with audio samples from `audio_data/`
 2. **Text Summarization**: Run `summarization.ipynb` with sample emails from `sample_emails/`
+3. **Image Description**: Run `image-to-text.ipynb` with image from assets/images/image-to-text.png''
 
 
