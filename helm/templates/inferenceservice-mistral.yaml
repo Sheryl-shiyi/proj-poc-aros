@@ -1,0 +1,38 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: {{ .Values.mistral.model.name }}
+  namespace: {{ .Values.namespaces }}
+  labels:
+    networking.kserve.io/visibility: exposed
+    opendatahub.io/dashboard: "true"
+  annotations:
+    openshift.io/display-name: {{ .Values.mistral.model.displayName | quote }}
+    security.opendatahub.io/enable-auth: "true"
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    automountServiceAccountToken: false
+    minReplicas: {{ .Values.mistral.replicas.min }}
+    maxReplicas: {{ .Values.mistral.replicas.max }}
+    model:
+      runtime: {{ .Values.mistral.model.name }}
+      modelFormat:
+        name: vLLM
+      args:
+        - --max_model_len
+        - {{ .Values.mistral.model.maxModelLen | quote }}
+      storageUri: {{ .Values.mistral.model.storageUri | quote }}
+      resources:
+        requests:
+          cpu: {{ .Values.mistral.resources.requests.cpu | quote }}
+          memory: {{ .Values.mistral.resources.requests.memory | quote }}
+          nvidia.com/gpu: {{ .Values.mistral.resources.requests.gpu | quote }}
+        limits:
+          cpu: {{ .Values.mistral.resources.limits.cpu | quote }}
+          memory: {{ .Values.mistral.resources.limits.memory | quote }}
+          nvidia.com/gpu: {{ .Values.mistral.resources.limits.gpu | quote }}
+    {{- with .Values.mistral.tolerations }}
+    tolerations:
+{{ toYaml . | indent 6 }}
+    {{- end }}

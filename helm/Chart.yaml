@@ -1,0 +1,6 @@
+apiVersion: v2
+name: proj-poc-aros
+description: A quick start to deploy Whisper on OpenShift AI and enable speech-to-text inference in your cluster
+type: application
+version: 1.0.0
+appVersion: "whisper-large-v3"

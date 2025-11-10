@@ -1,0 +1,30 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: {{ .Values.whisper.model.name }}
+  namespace: {{ .Values.namespaces }}
+  annotations:
+    serving.kserve.io/deploymentMode: RawDeployment
+spec:
+  predictor:
+    automountServiceAccountToken: false
+    minReplicas: {{ .Values.whisper.replicas.min }}
+    maxReplicas: {{ .Values.whisper.replicas.max }}
+    model:
+      runtime: {{ .Values.whisper.model.name }}
+      modelFormat:
+        name: vLLM
+      storageUri: {{ .Values.whisper.model.storageUri | quote }}
+      resources:
+        requests:
+          cpu: {{ .Values.whisper.resources.requests.cpu | quote }}
+          memory: {{ .Values.whisper.resources.requests.memory | quote }}
+          nvidia.com/gpu: {{ .Values.whisper.resources.requests.gpu | quote }}
+        limits:
+          cpu: {{ .Values.whisper.resources.limits.cpu | quote }}
+          memory: {{ .Values.whisper.resources.limits.memory | quote }}
+          nvidia.com/gpu: {{ .Values.whisper.resources.limits.gpu | quote }}
+    {{- with .Values.whisper.tolerations }}
+    tolerations:
+{{ toYaml . | indent 6 }}
+    {{- end }}

@@ -1,0 +1,77 @@
+# Target namespaces
+namespaces: "proj-poc-aros"
+
+# Whisper model configuration
+whisper:
+  image:
+    repository: quay.io/vllm/vllm-cuda
+    tag: "0.9.2.2"
+    pullPolicy: IfNotPresent
+  model:
+    name: "whisper-large-v3"
+    storageUri: "oci://quay.io/redhat-ai-services/modelcar-catalog:whisper-large-v3"
+    connectionSecretName: "whisper-large-v3-oci"
+  resources:
+    requests:
+      cpu: "4"
+      memory: "8Gi"
+      gpu: "1"
+    limits:
+      cpu: "8"
+      memory: "10Gi"
+      gpu: "1"
+  replicas:
+    min: 1
+    max: 1
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Exists"
+      effect: "NoSchedule"
+
+# Mistral model configuration
+mistral:
+  image:
+    repository: registry.redhat.io/rhoai/odh-vllm-cuda-rhel9
+    digest: "sha256:fb84fbf103bf450ef5b060fc5f21a9cf16b166dba207a3c50aa91bccd919d604"
+    pullPolicy: IfNotPresent
+  model:
+    name: "redhataimistral-small-quantizedw4a16"
+    displayName: "RedHatAI/Mistral-Small-quantized.w4a16"
+    storageUri: "oci://registry.redhat.io/rhelai1/modelcar-mistral-small-3-1-24b-instruct-2503-quantized-w4a16:1.5"
+    maxModelLen: "32000"
+  resources:
+    requests:
+      cpu: "6"
+      memory: "16Gi"
+      gpu: "1"
+    limits:
+      cpu: "10"
+      memory: "20Gi"
+      gpu: "1"
+  replicas:
+    min: 1
+    max: 1
+  tolerations:
+    - key: "nvidia.com/gpu"
+      operator: "Exists"
+      effect: "NoSchedule"
+
+# Optional OpenShift route; leave host unset for automatic assignment
+route: {}
+
+workbench:
+  name: "proj-poc-aros-workbench"
+  image: "image-registry.openshift-image-registry.svc:5000/redhat-ods-applications/s2i-generic-data-science-notebook:2025.1"
+  resources:
+    requests:
+      cpu: "3"
+      memory: 24Gi
+    limits:
+      cpu: "6"
+      memory: 24Gi
+  pvc:
+    name: "proj-poc-aros-workbench-storage"
+    size: "20Gi"
+    storageClassName: "gp3-csi"
+  gitRepo:
+    url: "https://github.com/Sheryl-shiyi/proj-poc-aros.git"
