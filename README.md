@@ -13,6 +13,46 @@ Contains audio samples for testing speech-to-text models:
 Insurance claims examples for testing summarization model:
 - `claim1.json`, `claim2.json`, `claim3.json` - Sample insurance claim data
 
+## Installation
+
+Deploy both Whisper and Mistral models to your OpenShift AI cluster using the Helm chart.
+
+### Prerequisites
+
+- OpenShift cluster with OpenShift AI/RHOAI installed
+- Helm 3.x installed
+- `kubectl` or `oc` CLI configured
+- GPU nodes available in your cluster
+- Access to model registries:
+  - `quay.io/redhat-ai-services` (for Whisper)
+  - `registry.redhat.io/rhelai1` (for Mistral)
+
+### Deploy from Packaged Chart
+
+```bash
+# Install the Helm chart
+helm install proj-poc-aros proj-poc-aros-1.0.0.tgz \
+  -n proj-poc-aros \
+  --create-namespace
+```
+
+### Deploy from Source
+
+```bash
+# Install from the helm directory
+helm install proj-poc-aros ./helm \
+  -n proj-poc-aros \
+  --create-namespace
+```
+
+### Uninstall
+
+To remove all resources:
+
+```bash
+helm uninstall proj-poc-aros -n proj-poc-aros
+```
+
 ## Notebooks
 
 ### Speech-to-Text Testing
@@ -26,6 +66,11 @@ Insurance claims examples for testing summarization model:
 - **`summarization.ipynb`** - Test summarization model with sample insurance claims
 
 ![Summary](assets/images/summary.png)
+
+### Image-to-Text (Multimodal) Testing
+- **`image-to-text.ipynb`** - Generate natural language descriptions from images using the Mistral multimodal model
+
+![Image to Text](assets/images/image-to-text.png)
 
 ## Deployment
 
