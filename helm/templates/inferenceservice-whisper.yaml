@@ -3,11 +3,16 @@ kind: InferenceService
 metadata:
   name: {{ .Values.whisper.model.name }}
   namespace: {{ .Values.namespaces }}
+  labels:
+    networking.kserve.io/visibility: exposed
+    opendatahub.io/dashboard: "true"
   annotations:
+    openshift.io/display-name: "Whisper Large V3"
+    security.opendatahub.io/enable-auth: "true"
     serving.kserve.io/deploymentMode: RawDeployment
 spec:
   predictor:
-    automountServiceAccountToken: false
+    serviceAccountName: {{ .Values.whisper.model.name }}-sa
     minReplicas: {{ .Values.whisper.replicas.min }}
     maxReplicas: {{ .Values.whisper.replicas.max }}
     model:

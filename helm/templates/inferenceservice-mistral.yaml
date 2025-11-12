@@ -12,7 +12,7 @@ metadata:
     serving.kserve.io/deploymentMode: RawDeployment
 spec:
   predictor:
-    automountServiceAccountToken: false
+    serviceAccountName: {{ .Values.mistral.model.name }}-sa
     minReplicas: {{ .Values.mistral.replicas.min }}
     maxReplicas: {{ .Values.mistral.replicas.max }}
     model:

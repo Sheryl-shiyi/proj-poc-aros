@@ -1,0 +1,32 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.whisper.model.name }}-access
+  namespace: {{ .Values.namespaces }}
+  labels:
+    opendatahub.io/dashboard: "true"
+rules:
+  - apiGroups: ["serving.kserve.io"]
+    resources: ["inferenceservices"]
+    resourceNames: [{{ .Values.whisper.model.name | quote }}]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["services"]
+    verbs: ["get", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Values.whisper.model.name }}-access
+  namespace: {{ .Values.namespaces }}
+  labels:
+    opendatahub.io/dashboard: "true"
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.whisper.model.name }}-sa
+    namespace: {{ .Values.namespaces }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ .Values.whisper.model.name }}-access
+

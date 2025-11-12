@@ -47,11 +47,30 @@ helm install proj-poc-aros ./helm \
 
 ### Uninstall
 
-To remove all resources:
-
 ```bash
 helm uninstall proj-poc-aros -n proj-poc-aros
+
+oc delete namespace proj-poc-aros
 ```
+
+## Authentication
+
+Both models are deployed with **token authentication** enabled for secure access to external endpoints.
+
+**Quick Start:**
+```bash
+# Extract token
+TOKEN=$(kubectl get secret whisper-large-v3-sa-token -n proj-poc-aros \
+  -o jsonpath='{.data.token}' | base64 -d)
+
+# Use in API calls
+curl -H "Authorization: Bearer $TOKEN" https://your-endpoint/v1/models
+```
+
+📖 **Detailed Guide:** See [troubleshooting/TOKEN_SETUP.md](troubleshooting/TOKEN_SETUP.md) for complete token setup and usage instructions.
+
+🔧 **Troubleshooting:** See [troubleshooting/FIX_AUTH_ERROR.md](troubleshooting/FIX_AUTH_ERROR.md) if you encounter authentication errors.
+
 
 ## Notebooks
 
