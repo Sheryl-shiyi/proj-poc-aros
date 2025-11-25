@@ -95,7 +95,9 @@ curl -H "Authorization: Bearer $TOKEN" https://your-endpoint/v1/models
 
 Two models are deployed in OpenShift AI cluster with vLLM as serving runtime:
 - Speech-to-text model: Whisper-large-v3
-- Text summarization model: Llama-3.1-8B-Instruct-quantized.w4a16 
+- Text summarization model: Llama-3.1-8B-Instruct-quantized.w4a16
+
+> **Note**:  we replaced the text summarization model to 'Mistral-Small-3.1-24B-Instruct-2503-quantized.w4a16' for better performance on Danish data.
 
 Both models support internal and external endpoint access. **External URLs are pre-populated in the whisper notebooks.**
 
