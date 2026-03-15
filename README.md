@@ -45,6 +45,24 @@ helm install proj-poc-aros ./helm \
   --create-namespace
 ```
 
+### Selective Model Deployment
+
+By default, both Whisper and Mistral models are deployed. You can selectively enable/disable each model using the `enabled` flag:
+
+```bash
+# Deploy only Whisper (speech-to-text)
+helm install proj-poc-aros ./helm \
+  -n proj-poc-aros \
+  --create-namespace \
+  --set mistral.enabled=false
+
+# Deploy only Mistral (text summarization)
+helm install proj-poc-aros ./helm \
+  -n proj-poc-aros \
+  --create-namespace \
+  --set whisper.enabled=false
+```
+
 ### Uninstall
 
 ```bash

@@ -1,8 +1,9 @@
+{{- if .Values.mistral.enabled }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Values.mistral.model.name }}-access
-  namespace: {{ .Values.namespaces }}
+  namespace: {{ .Release.Namespace }}
   labels:
     opendatahub.io/dashboard: "true"
 rules:
@@ -18,15 +19,16 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: {{ .Values.mistral.model.name }}-access
-  namespace: {{ .Values.namespaces }}
+  namespace: {{ .Release.Namespace }}
   labels:
     opendatahub.io/dashboard: "true"
 subjects:
   - kind: ServiceAccount
     name: {{ .Values.mistral.model.name }}-sa
-    namespace: {{ .Values.namespaces }}
+    namespace: {{ .Release.Namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
   name: {{ .Values.mistral.model.name }}-access
+{{- end }}
 

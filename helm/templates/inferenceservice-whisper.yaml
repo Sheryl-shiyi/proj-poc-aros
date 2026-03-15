@@ -1,8 +1,9 @@
+{{- if .Values.whisper.enabled }}
 apiVersion: serving.kserve.io/v1beta1
 kind: InferenceService
 metadata:
   name: {{ .Values.whisper.model.name }}
-  namespace: {{ .Values.namespaces }}
+  namespace: {{ .Release.Namespace }}
   labels:
     networking.kserve.io/visibility: exposed
     opendatahub.io/dashboard: "true"
@@ -33,3 +34,4 @@ spec:
     tolerations:
 {{ toYaml . | indent 6 }}
     {{- end }}
+{{- end }}

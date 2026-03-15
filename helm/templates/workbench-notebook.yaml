@@ -2,7 +2,7 @@ apiVersion: kubeflow.org/v1
 kind: Notebook
 metadata:
   name: {{ .Values.workbench.name }}
-  namespace: {{ .Values.namespaces }}
+  namespace: {{ .Release.Namespace }}
   annotations:
     notebooks.opendatahub.io/inject-oauth: "true"
     opendatahub.io/image-display-name: Standard Data Science
@@ -30,10 +30,10 @@ spec:
                 --ServerApp.port=8888
                 --ServerApp.token=''
                 --ServerApp.password=''
-                --ServerApp.base_url=/notebook/{{ .Values.namespaces }}/{{ .Values.workbench.name }}
+                --ServerApp.base_url=/notebook/{{ .Release.Namespace }}/{{ .Values.workbench.name }}
                 --ServerApp.quit_button=False
                 {{- if .Values.clusterdomainurl }}
-                --ServerApp.tornado_settings={"user":"admin","hub_host":"https://rhods-dashboard-redhat-ods-applications.apps.{{ .Values.clusterdomainurl }}","hub_prefix":"/projects/{{ .Values.namespaces }}"}
+                --ServerApp.tornado_settings={"user":"admin","hub_host":"https://rhods-dashboard-redhat-ods-applications.apps.{{ .Values.clusterdomainurl }}","hub_prefix":"/projects/{{ .Release.Namespace }}"}
                 {{- end }}
             - name: JUPYTER_IMAGE
               value: {{ .Values.workbench.image | quote }}

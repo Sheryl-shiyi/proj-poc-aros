@@ -1,8 +1,9 @@
+{{- if .Values.whisper.enabled }}
 apiVersion: serving.kserve.io/v1alpha1
 kind: ServingRuntime
 metadata:
   name: {{ .Values.whisper.model.name }}
-  namespace: {{ .Values.namespaces }}
+  namespace: {{ .Release.Namespace }}
   labels:
     opendatahub.io/dashboard: "true"
   annotations:
@@ -43,3 +44,4 @@ spec:
       emptyDir:
         medium: Memory
         sizeLimit: 2Gi
+{{- end }}

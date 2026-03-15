@@ -3,6 +3,7 @@ namespaces: "proj-poc-aros"
 
 # Whisper model configuration
 whisper:
+  enabled: true
   image:
     repository: quay.io/vllm/vllm-cuda
     tag: "0.9.2.2"
@@ -30,6 +31,7 @@ whisper:
 
 # Mistral model configuration
 mistral:
+  enabled: true
   image:
     repository: registry.redhat.io/rhoai/odh-vllm-cuda-rhel9
     digest: "sha256:fb84fbf103bf450ef5b060fc5f21a9cf16b166dba207a3c50aa91bccd919d604"
